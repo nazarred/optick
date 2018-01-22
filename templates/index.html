@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}Main page{% endblock title %}
+
+{% block main_content %}
+  <div>
+    <p>Статистика за сьогодні</p>
+    {{sold_glasses}}
+    {{ sum_price }}
+  </div>
+
+            <table class="table table-striped">
+              <thead text align="centr">
+                <tr>
+                  <th>#</th>
+                  <th>Код окулярів</th>
+                  <th>Ім'я</th>
+                  <th>Кількість</th>
+                  <th>Ціна</th>
+                  <th>Дата, час продажу</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for glass in sold_glasses %}
+                <tr text align="left">
+                  <td>1</td>
+                  <td>{{ glass.kod }}</td>
+                  <td>{{ glass.name }} 5</td>
+                  <td>{{ glass.pcs }}</td>
+                  <td>{{ glass.price_roz }}</td>
+                  <td>{{ glass.sale_date }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan="3"><b>Всього</b></td>>
+                  <td text align="left"><b>{{ sum_pcs }}</b></td>
+                  <td colspan="2", text align="left"><b>{{ sum_price }}</b></td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+{% endblock main_content %}
