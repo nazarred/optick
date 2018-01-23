@@ -4,9 +4,21 @@
 {% block title %}Main page{% endblock title %}
 
 {% block main_content %}
+
   <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" />
   </form>
+
+<!--
+    {% for field in form %}
+    <div>
+    <p>{{ field.label_tag }}</p>
+        <p>{{ field }}</p>
+        <p>{{ field.label }}</p><br>
+
+    </div>
+    {% endfor %}
+-->
 {% endblock main_content %}

@@ -11,6 +11,8 @@ import datetime
 
 date_today = datetime.date(2018, 1, 22)
 
+# datetime.date(1986, 7, 28)
+
 
 class HomePageView(TemplateView):
 
@@ -20,9 +22,6 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['sold_glasses'] = SoldGlasses.objects.filter(sale_date__contains=date_today)
         context['date_today'] = date_today
-
-        #datetime.date(1986, 7, 28)
-
         for glass in context['sold_glasses']:
             context['sum_price'] = context.get('sum_price', 0) + glass.price_roz*glass.pcs
             context['sum_pcs'] = context.get('sum_pcs', 0) + glass.pcs
@@ -38,6 +37,8 @@ class GlassesModelForm(forms.ModelForm):
         model = DptGlasses
         exclude = []
 
+"""
+створює об'єкт, але не змінює
 
 class GlassesCreateView(CreateView):
     form_class = GlassesModelForm
@@ -49,7 +50,7 @@ class GlassesCreateView(CreateView):
         message = 'Окуляри %s %s добавлені' % (self.request.POST['name'], self.request.POST['kod'])
         messages.success(self.request, message)
         return response
-
+"""
 
 def glasses_add(request):
     if request.method == 'POST':

@@ -7,7 +7,7 @@
 {% block main_content %}
 
     {% if messages %}
-        <div class="alert alert-success", align="left">
+        <div class="alert alert-success" align="left">
           <ul class="messages">
           {% for message in messages %}
               <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -16,7 +16,9 @@
         </div>
     {% endif %}
 
-Статистика за {{ date_today|date:"d.m.Y" }}
+<div class="panel panel-primary">
+  <!-- Default panel contents -->
+  <div class="panel-heading" align="center"><h4> Статистика за {{ date_today|date:"d.m.Y" }}</h4></div>
 
             <table class="table table-striped">
               <thead>
@@ -31,23 +33,23 @@
               </thead>
               <tbody>
                 {% for glass in sold_glasses %}
-                <tr text align="left">
-                  <td>1</td>
+                <tr>
+                  <td>{{ forloop.counter }}</td>
                   <td>{{ glass.kod }}</td>
                   <td>{{ glass.name }} 5</td>
                   <td>{{ glass.pcs }}</td>
                   <td>{{ glass.price_roz }}</td>
-                  <td>{{ glass.sale_date|date:"d.m.Y" }}</td>
+                  <td>{{ glass.sale_date|time }}, {{ glass.sale_date|date:"d.m.Y" }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
-                  <td colspan="3"><b>Всього</b></td>>
-                  <td text align="left"><b>{{ sum_pcs }}</b></td>
-                  <td colspan="2", text align="left"><b>{{ sum_price }}</b></td>
+                  <td colspan="3" align="center"><b>Всього</b></td>
+                  <td><b>{{ sum_pcs }}</b></td>
+                  <td colspan="2"><b>{{ sum_price }}</b></td>
                 </tr>
               </tbody>
             </table>
-
+</div>
 
 
 {% endblock main_content %}
