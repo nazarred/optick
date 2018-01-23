@@ -5,14 +5,21 @@
 {% block title %}Main page{% endblock title %}
 
 {% block main_content %}
-  <div>
-    <p>Статистика за сьогодні</p>
-    {{sold_glasses}}
-    {{ sum_price }}
-  </div>
+
+    {% if messages %}
+        <div class="alert alert-success", align="left">
+          <ul class="messages">
+          {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+
+Статистика за {{ date_today|date:"d.m.Y" }}
 
             <table class="table table-striped">
-              <thead text align="centr">
+              <thead>
                 <tr>
                   <th>#</th>
                   <th>Код окулярів</th>
@@ -30,7 +37,7 @@
                   <td>{{ glass.name }} 5</td>
                   <td>{{ glass.pcs }}</td>
                   <td>{{ glass.price_roz }}</td>
-                  <td>{{ glass.sale_date }}</td>
+                  <td>{{ glass.sale_date|date:"d.m.Y" }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
