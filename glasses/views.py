@@ -6,6 +6,7 @@ from .models import DptGlasses
 from django.views.generic.base import TemplateView
 from sale.models import SoldGlasses
 from django.contrib import messages
+from .forms import GlassesModelForm
 
 import datetime
 
@@ -32,10 +33,7 @@ def glasses_search(request):
     return render(request, 'glasses/glass.html')
 
 
-class GlassesModelForm(forms.ModelForm):
-    class Meta:
-        model = DptGlasses
-        exclude = []
+
 
 """
 створює об'єкт, але не змінює
@@ -55,34 +53,16 @@ class GlassesCreateView(CreateView):
 def glasses_add(request):
     if request.method == 'POST':
         kod, dpt = request.POST['kod'], request.POST['dpt']
-        # якщо окуляри з таким кодом і діоптріями вже є збільшуємо кількісь в існуючумо екземплярі
-        if DptGlasses.objects.filter(kod=kod, dpt=dpt):
-            inst = DptGlasses.objects.filter(kod=kod, dpt=dpt).get()
-            default_pcs = inst.pcs
-            old_price_roz = inst.price_roz
-            old_price_opt = inst.price_opt
-            form = GlassesModelForm(request.POST, instance=inst)
-            if form.is_valid():
-                glass = form.save(commit=False)
-                glass.pcs = default_pcs + int(request.POST['pcs'])
-                glass.save()
-                message = 'Окуляри %s %s змінені' % (request.POST['name'], request.POST['kod'])
-                messages.success(request, message)
-                second_message = 'ціни не змінилися'
-                if old_price_opt != glass.price_opt or old_price_roz != glass.price_roz:
-                    second_message = 'Роздрібна ціна: нова %d грн, стара %d грн;' \
-                                     ' оптова ціна нова %d грн, стара %d грн;' % (glass.price_roz, old_price_roz,
-                                                                                  glass.price_opt, old_price_opt
-                                                                                  )
-                messages.success(request, second_message)
-                return redirect('index')
         form = GlassesModelForm(request.POST)
-        # якщо окулярів немає - створюємо новий інстанс
         if form.is_valid():
-            instance = form.save()
-            message = 'Окуляри %s %s добавлені' % (request.POST['name'], request.POST['kod'])
-            messages.success(request, message)
+            glass = form.save(commit=False)
+            messages_dict = glass.messages_text(kod, dpt)
+            glass.inclement_and_save(kod, dpt)
+            messages.success(request, messages_dict['message'])
+            messages.success(request, messages_dict['second_message'])
             return redirect('index')
     else:
         form = GlassesModelForm()
     return render(request, 'glasses/add_form.html', {'form': form})
+
+
