@@ -20,5 +20,5 @@ from glasses import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.HomePageView.as_view(), name='index'),
-    url(r'^glasses/', include('glasses.urls')),
+    url(r'^glasses/', include('glasses.urls', namespace='glasses')),
 ]

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Пошук{% endblock title %}
+{% block active_search %}active{% endblock  %}
+
+{% block main_content %}
+
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-default navbar-btn" value="Пошук" />
+  </form>
+
+<!--
+    {% for field in form %}
+    <div>
+    <p>{{ field.label_tag }}</p>
+        <p>{{ field }}</p>
+        <p>{{ field.label }}</p><br>
+
+    </div>
+    {% endfor %}
+-->
+{% endblock main_content %}

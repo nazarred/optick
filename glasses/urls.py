@@ -17,6 +17,6 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.glasses_search, name='glasses_search'),
-    url(r'^add/', views.glasses_add, name='add_glass'),
+    url(r'^$', views.glasses_search, name='search'),
+    url(r'^add/', views.glasses_add, name='add'),
 ]

@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django import forms
 from .models import DptGlasses
 from django.views.generic.base import TemplateView
 from sale.models import SoldGlasses
 from django.contrib import messages
-from .forms import GlassesModelForm
+from .forms import GlassesModelForm, SearchModelForm
 
 import datetime
 
@@ -30,7 +30,8 @@ class HomePageView(TemplateView):
 
 
 def glasses_search(request):
-    return render(request, 'glasses/glass.html')
+    form = SearchModelForm()
+    return render(request, 'glasses/search.html', {'form':form})
 
 
 
@@ -49,6 +50,7 @@ class GlassesCreateView(CreateView):
         messages.success(self.request, message)
         return response
 """
+
 
 def glasses_add(request):
     if request.method == 'POST':
