@@ -10,7 +10,7 @@ from .forms import GlassesModelForm, SearchModelForm
 
 import datetime
 
-date_today = datetime.date(2018, 1, 22)
+date_today = datetime.date.today()
 
 # datetime.date(1986, 7, 28)
 
@@ -21,9 +21,9 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['sold_glasses'] = SoldGlasses.objects.filter(sale_date__contains=date_today)
-        context['date_today'] = date_today
-        for glass in context['sold_glasses']:
+        context['glasses'] = SoldGlasses.objects.filter(sale_date__contains=date_today)
+        context['date'] = date_today
+        for glass in context['glasses']:
             context['sum_price'] = context.get('sum_price', 0) + glass.price_roz*glass.pcs
             context['sum_pcs'] = context.get('sum_pcs', 0) + glass.pcs
         return context
@@ -34,22 +34,15 @@ def glasses_search(request):
     return render(request, 'glasses/search.html', {'form':form})
 
 
-
-
-"""
-створює об'єкт, але не змінює
-
-class GlassesCreateView(CreateView):
-    form_class = GlassesModelForm
-    template_name = 'glasses/add_form.html'
-    success_url = reverse_lazy('index')
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        message = 'Окуляри %s %s добавлені' % (self.request.POST['name'], self.request.POST['kod'])
-        messages.success(self.request, message)
-        return response
-"""
+def glasses_list(request):
+    try:
+        form = SearchModelForm(request.GET)
+        glasses = DptGlasses.objects.filter(dpt=request.GET['dpt'])
+    except Exception:
+        glass = DptGlasses.objects.get(id=request.GET['glass_id'])
+        SoldGlasses.sale(glass)
+        return redirect('index')
+    return render(request, 'glasses/search.html', {'form':form, 'glasses': glasses})
 
 
 def glasses_add(request):

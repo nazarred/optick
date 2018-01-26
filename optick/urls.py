@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.HomePageView.as_view(), name='index'),
     url(r'^glasses/', include('glasses.urls', namespace='glasses')),
+    url(r'^sale/', include('sale.urls', namespace='sale'))
 ]

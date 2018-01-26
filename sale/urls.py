@@ -17,7 +17,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^search/$', views.glasses_search, name='search'),
-    url(r'^list/', views.glasses_list, name='list'),
-    url(r'^add/$', views.glasses_add, name='add'),
+    url(r'^(?P<pk>\d+)/$', views.sale, name='glass_sale')
 ]

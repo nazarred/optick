@@ -1,0 +1,39 @@
+<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Код окулярів</th>
+                  <th>Ім'я</th>
+                  <th>Діоптрії</th>
+                  <th>Кількість</th>
+                  <th>Ціна</th>
+                  {% if date %}<th>Дата, час продажу</th>{% endif %}
+                  {% if sale %}<th></th>{% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for glass in glasses %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ glass.kod }}</td>
+                  <td>{{ glass.name }}</td>
+                  <td>{% if glass.dpt %}{{ glass.dpt }}{% endif %}</td>
+                  <td>{{ glass.pcs }}</td>
+                  <td>{{ glass.price_roz }}</td>
+                  {% if date %}
+                    <td>{{ glass.sale_date|time }}, {{ glass.sale_date|date:"d.m.Y" }}</td>
+                  {% endif %}
+                  {% if not glass.sale_date %}
+                      <th>
+                        <a href="/sale/{{ glass.id }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-usd"></span> Продати</a>
+                      </th>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan="4" align="center"><b>Всього</b></td>
+                  <td><b>{{ sum_pcs }}</b></td>
+                  <td colspan="2"><b>{{ sum_price }}</b></td>
+                </tr>
+              </tbody>
+            </table>

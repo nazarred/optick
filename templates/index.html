@@ -19,37 +19,10 @@
 
 <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading" align="center"><h4> Статистика за {{ date_today|date:"d.m.Y" }}</h4></div>
+  <div class="panel-heading" align="center"><h4> Статистика за {{ date|date:"d.m.Y" }}</h4></div>
 
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Код окулярів</th>
-                  <th>Ім'я</th>
-                  <th>Кількість</th>
-                  <th>Ціна</th>
-                  <th>Дата, час продажу</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for glass in sold_glasses %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ glass.kod }}</td>
-                  <td>{{ glass.name }} 5</td>
-                  <td>{{ glass.pcs }}</td>
-                  <td>{{ glass.price_roz }}</td>
-                  <td>{{ glass.sale_date|time }}, {{ glass.sale_date|date:"d.m.Y" }}</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                  <td colspan="3" align="center"><b>Всього</b></td>
-                  <td><b>{{ sum_pcs }}</b></td>
-                  <td colspan="2"><b>{{ sum_price }}</b></td>
-                </tr>
-              </tbody>
-            </table>
+    {% include 'inc_glasses_list.html' %}
+
 </div>
 
 

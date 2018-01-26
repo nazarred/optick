@@ -1,5 +1,8 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib import messages
+
+from django import forms
 
 
 class DptGlasses(models.Model):
@@ -8,8 +11,13 @@ class DptGlasses(models.Model):
     price_opt = models.FloatField()
     price_roz = models.IntegerField()
     dpt = models.FloatField()
-    pcs = models.IntegerField()
+    pcs = models.PositiveIntegerField()
     comment = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        data_list = [k/100 for k in range(-2000, 2000, 25)]
+        if self.dpt not in data_list:
+            raise ValidationError("Значення діоптрій не коректне (введіть значення від -20 до 20, наприклад '2,75', '-3.5')")
 
     def inclement_and_save(self, kod, dpt):
         try:
@@ -20,7 +28,6 @@ class DptGlasses(models.Model):
             glass.save()
         except Exception:
             return self.save()
-
 
     def messages_text(self, kod, dpt):
         try:
