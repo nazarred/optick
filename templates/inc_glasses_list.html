@@ -24,9 +24,9 @@
                     <td>{{ glass.sale_date|time }}, {{ glass.sale_date|date:"d.m.Y" }}</td>
                   {% endif %}
                   {% if not glass.sale_date %}
-                      <th>
+                      <td>
                         <a href="/sale/{{ glass.id }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-usd"></span> Продати</a>
-                      </th>
+                      </td>
                   {% endif %}
                 </tr>
                 {% endfor %}

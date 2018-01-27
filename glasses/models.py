@@ -6,13 +6,13 @@ from django import forms
 
 
 class DptGlasses(models.Model):
-    kod = models.CharField(max_length=15)
-    name = models.CharField(max_length=20, blank=True, null=True)
-    price_opt = models.FloatField()
-    price_roz = models.IntegerField()
-    dpt = models.FloatField()
-    pcs = models.PositiveIntegerField()
-    comment = models.TextField(blank=True, null=True)
+    kod = models.CharField(max_length=15, verbose_name='Код')
+    name = models.CharField(max_length=20, blank=True, null=True, verbose_name="Ім'я")
+    price_opt = models.FloatField(verbose_name='Оптова ціна', help_text='грн')
+    price_roz = models.IntegerField(verbose_name='Роздрібна ціна', help_text='грн')
+    dpt = models.FloatField(verbose_name='Діоптрії')
+    pcs = models.PositiveIntegerField(verbose_name='Кількість', help_text='шт.')
+    comment = models.TextField(blank=True, null=True, verbose_name='Примітка')
 
     def clean(self):
         data_list = [k/100 for k in range(-2000, 2000, 25)]

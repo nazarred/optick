@@ -37,7 +37,16 @@ def glasses_search(request):
 def glasses_list(request):
     try:
         form = SearchModelForm(request.GET)
-        glasses = DptGlasses.objects.filter(dpt=request.GET['dpt'])
+        print(request.GET['kod'])
+        glasses = DptGlasses.objects.all()
+        if request.GET['kod']:
+            glasses = glasses.filter(kod=request.GET['kod'])
+        if request.GET['name']:
+            glasses = glasses.filter(name__iexact=request.GET['name'])
+        if request.GET['price_roz']:
+            glasses = glasses.filter(price_roz=request.GET['price_roz'])
+        if request.GET['dpt']:
+            glasses = glasses.filter(dpt=request.GET['dpt'])
     except Exception:
         glass = DptGlasses.objects.get(id=request.GET['glass_id'])
         SoldGlasses.sale(glass)

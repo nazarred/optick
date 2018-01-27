@@ -2,23 +2,52 @@
 
 
 {% block title %}Main page{% endblock title %}
+{% block style %}
+  <style>
+   table {
+        width: AUTO ; /* Ширина таблицы в процентах */
+   }
+   TD, TH {
+       height: 42px;
+       padding: 5px; /* Поля вокруг текста */
 
+   }
+   tr {
+
+   }
+   </style>
+{% endblock %}
 {% block main_content %}
+<div>
+    <form method="post">
+    {% csrf_token %}
+      <table >
 
-  <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" />
-  </form>
+        <tbody>
+                <tr>
+                  <td valign="bottom">{{ form.kod.label_tag }}</td>
+                  <td>{{ form.kod }}</td>
+                  <td valign="bottom">{{ form.name.label_tag }}</td>
+                  <td>{{ form.name }}</td>
+                </tr>
+                <tr>
+                  <td valign="bottom">{{ form.price_opt.label_tag }}</td>
+                  <td>{{ form.price_opt }} {{ form.price_opt.help_text }}</td>
+                  <td valign="bottom">{{ form.price_roz.label_tag }}</td>
+                  <td>{{ form.price_roz }} {{ form.price_roz.help_text }}</td>
+                </tr>
+                <tr>
+                  <td valign="bottom">{{ form.dpt.label_tag }}</td>
+                  <td>{{ form.dpt }}</td>
+                  <td valign="bottom">{{ form.pcs.label_tag }}</td>
+                  <td>{{ form.pcs }} {{ form.pcs.help_text }}</td>
+                </tr>
+                <tr>
+                  <td valign="bottom">{{ form.comment.label_tag }}</td>
+                  <td colspan="3">{{ form.comment }}</td>
+      </table>
+    <input type="submit" value="Добавити" class="btn btn-primary" />
+    </form>
 
-<!--
-    {% for field in form %}
-    <div>
-    <p>{{ field.label_tag }}</p>
-        <p>{{ field }}</p>
-        <p>{{ field.label }}</p><br>
-
-    </div>
-    {% endfor %}
--->
+</div>
 {% endblock main_content %}

@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from glasses.models import DptGlasses
 from .forms import SaleModelForm
+from django.contrib import messages
 
 
 def sale(request, pk):
@@ -13,4 +14,8 @@ def sale(request, pk):
             glass = form.save(commit=False)
             #треба ще добавити функції видалення або зменшення кількості в моделі DptGlasses
             glass.save()
+            message = 'Окуляри %s продані, кількість %d ціна %d грн' % (glass, glass.pcs, glass.price_roz)
+            messages.success(request, message)
+            return redirect('index')
+
     return render(request, 'sale/sale.html', {'form': form})
