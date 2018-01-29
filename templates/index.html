@@ -25,7 +25,13 @@
 
 <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading" align="center"><h4> Статистика за {{ date|date:"d.m.Y" }}</h4></div>
+  <div class="panel-heading" align="center"><h4> Статистика за 
+  {% if first_date %}
+  {{ first_date|date:"d.m" }} - {{ last_date|date:"d.m.Y" }}
+  {% else %}
+  {{ date|date:"d.m.Y" }}
+  {% endif %}
+</h4></div>
 
     {% include 'inc_glasses_list.html' %}
 
