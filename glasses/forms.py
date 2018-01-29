@@ -21,10 +21,10 @@ class SearchModelForm(forms.ModelForm):
 
 
 class SearchModelForm(forms.Form):
-    kod = forms.CharField(max_length=15, required=False, )
-    name = forms.CharField(max_length=20, required=False)
-    price_roz = forms.IntegerField(required=False)
-    dpt = forms.FloatField(required=False)
+    kod = forms.CharField(max_length=15, required=False, label='Код')
+    name = forms.CharField(max_length=20, required=False, label="Ім'я")
+    price_roz = forms.IntegerField(required=False, label='Роздрібна ціна')
+    dpt = forms.FloatField(required=False, label='Діоптрії')
 
 
     def clean(self):

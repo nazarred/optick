@@ -19,7 +19,7 @@ class DptGlasses(models.Model):
         if self.dpt not in data_list:
             raise ValidationError("Значення діоптрій не коректне (введіть значення від -20 до 20, наприклад '2,75', '-3.5')")
 
-    def inclement_and_save(self, kod, dpt):
+    def increment_and_save(self, kod, dpt):
         try:
             glass = DptGlasses.objects.get(kod=kod, dpt=dpt)
             glass.pcs += self.pcs
@@ -28,6 +28,15 @@ class DptGlasses(models.Model):
             glass.save()
         except Exception:
             return self.save()
+
+    def decrement_or_delete(self, glass):
+        if self.pcs - glass.pcs == 0:
+            self.delete()
+        elif self.pcs-glass.pcs < 0:
+            raise ValidationError('')
+        else:
+            self.pcs -= glass.pcs
+            self.save()
 
     def messages_text(self, kod, dpt):
         try:

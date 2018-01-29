@@ -31,44 +31,45 @@ class HomePageView(TemplateView):
             context['sum_pcs'] = context.get('sum_pcs', 0) + glass.pcs
         return context
 """
+
+
 def home_page(request):
-	form = DateFilterModelForm()
-	glasses = SoldGlasses.objects.filter(sale_date__contains=date_today)
-	context = {
-	'form': form,
-	'date': date_today,
-	}
-	if request.method == 'POST':
-		first_date, last_date = date_from_post(request.POST)
-		glasses = SoldGlasses.date_filter(first_date, last_date)
-		context['first_date'], context['last_date'] = first_date, last_date
-	context['glasses'] = glasses
-	return render(request, 'index.html', context)
+    form = DateFilterModelForm()
+    glasses = SoldGlasses.objects.filter(sale_date__contains=date_today).order_by('-sale_date')
+    context = {
+        'form': form,
+        'date': date_today,
+    }
+    if request.method == 'POST':
+        first_date, last_date = date_from_post(request.POST)
+        glasses = SoldGlasses.date_filter(first_date, last_date)
+        context['first_date'], context['last_date'] = first_date, last_date
+    context['glasses'] = glasses
+    return render(request, 'index.html', context)
 
 
 def glasses_search(request):
     form = SearchModelForm()
-    return render(request, 'glasses/search.html', {'form':form})
+    return render(request, 'glasses/search.html', {'form': form})
 
 
 def glasses_list(request):
-    try:
-        form = SearchModelForm(request.GET)
-        print(request.GET['kod'])
-        glasses = DptGlasses.objects.all()
-        if request.GET['kod']:
-            glasses = glasses.filter(kod=request.GET['kod'])
-        if request.GET['name']:
-            glasses = glasses.filter(name__iexact=request.GET['name'])
-        if request.GET['price_roz']:
-            glasses = glasses.filter(price_roz=request.GET['price_roz'])
-        if request.GET['dpt']:
-            glasses = glasses.filter(dpt=request.GET['dpt'])
-    except Exception:
-        glass = DptGlasses.objects.get(id=request.GET['glass_id'])
-        SoldGlasses.sale(glass)
-        return redirect('index')
-    return render(request, 'glasses/search.html', {'form':form, 'glasses': glasses})
+    no_glass_message = None
+    form = SearchModelForm(request.GET)
+    glasses = DptGlasses.objects.all()
+    if request.GET['kod']:
+        glasses = glasses.filter(kod=request.GET['kod'])
+    if request.GET['name']:
+        glasses = glasses.filter(name__iexact=request.GET['name'])
+    if request.GET['price_roz']:
+        glasses = glasses.filter(price_roz=request.GET['price_roz'])
+    if request.GET['dpt']:
+        glasses = glasses.filter(dpt=request.GET['dpt'])
+    if not glasses:
+        no_glass_message = 'Окулярів з такими параметрими не знайдено'
+    return render(request, 'glasses/search.html', {'form': form,
+                                                   'glasses': glasses,
+                                                   'no_glass_message': no_glass_message})
 
 
 def glasses_add(request):
@@ -78,12 +79,10 @@ def glasses_add(request):
         if form.is_valid():
             glass = form.save(commit=False)
             messages_dict = glass.messages_text(kod, dpt)
-            glass.inclement_and_save(kod, dpt)
+            glass.increment_and_save(kod, dpt)
             messages.success(request, messages_dict['message'])
             messages.success(request, messages_dict['second_message'])
             return redirect('index')
     else:
         form = GlassesModelForm()
     return render(request, 'glasses/add_form.html', {'form': form})
-
-

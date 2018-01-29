@@ -13,3 +13,8 @@ class SaleModelForm(forms.ModelForm):
             'dpt': NumberInput(attrs={'readonly': 'readonly'}),
             'price_opt': HiddenInput,
         }
+
+    def clean(self):
+        if self.cleaned_data.get('pcs') <= 0:
+            raise forms.ValidationError('Кількість проданих окулярів не може бути меншою 0 або дорівнювати 0')
+        return self.cleaned_data

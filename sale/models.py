@@ -13,7 +13,8 @@ class SoldGlasses(models.Model):
     comment = models.TextField(blank=True, null=True)
 
     def date_filter(first_date, last_date):
-    	return SoldGlasses.objects.filter(sale_date__gte=first_date).exclude(sale_date__gte=last_date)
+        last_date = datetime.date(last_date.year, last_date.month, last_date.day+1)
+        return SoldGlasses.objects.filter(sale_date__gte=first_date).exclude(sale_date__gte=last_date).order_by('-sale_date')
 
     def sale(glass):
         new_sale = SoldGlasses(
