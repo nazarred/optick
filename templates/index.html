@@ -17,6 +17,12 @@
         </div>
     {% endif %}
 
+      <form  method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" class="btn btn-default navbar-btn" value="Фільтрувати" />
+  </form>
+
 <div class="panel panel-primary">
   <!-- Default panel contents -->
   <div class="panel-heading" align="center"><h4> Статистика за {{ date|date:"d.m.Y" }}</h4></div>

@@ -6,7 +6,7 @@ from .models import DptGlasses
 from django.views.generic.base import TemplateView
 from sale.models import SoldGlasses
 from django.contrib import messages
-from .forms import GlassesModelForm, SearchModelForm
+from .forms import GlassesModelForm, SearchModelForm, DateFilterModelForm
 
 import datetime
 
@@ -20,9 +20,11 @@ class HomePageView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
+        form = DateFilterModelForm()
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['glasses'] = SoldGlasses.objects.filter(sale_date__contains=date_today)
         context['date'] = date_today
+        context['form'] = form
         for glass in context['glasses']:
             context['sum_price'] = context.get('sum_price', 0) + glass.price_roz*glass.pcs
             context['sum_pcs'] = context.get('sum_pcs', 0) + glass.pcs
