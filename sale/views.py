@@ -20,9 +20,9 @@ def sale(request, pk):
                 glass.save()
                 message = 'Окуляри %s продані, кількість %d ціна %d грн' % (glass, glass.pcs, glass.price_roz)
                 messages.success(request, message)
-                return reverse('sale:glass_sale', kwargs={'pk': pk})
+                print(pk)
+                return redirect('index')
             except ValidationError:
                 message = 'Кількіть проданих окулярів не може перевищувати кількість окулярів в наявності'
                 messages.success(request, message)
-                return render(request, 'sale/sale.html', {'form': form})
     return render(request, 'sale/sale.html', {'form': form})

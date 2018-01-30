@@ -19,11 +19,19 @@
 {% endblock %}
 {% block main_content %}
 <div>
+      {{ form.non_field_errors }}
     <form method="post">
     {% csrf_token %}
+
       <table >
 
         <tbody>
+                <tr>
+                  <td valign="bottom">{{ form.glass_type.label_tag }}</td>
+                  <td>{{ form.glass_type }}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
                 <tr>
                   <td valign="bottom">{{ form.kod.label_tag }}</td>
                   <td>{{ form.kod }}</td>

@@ -10,7 +10,7 @@ class SaleModelForm(forms.ModelForm):
         widgets = {
             'kod': TextInput(attrs={'readonly': 'readonly'}),
             'name': TextInput(attrs={'readonly': 'readonly'}),
-            'dpt': NumberInput(attrs={'readonly': 'readonly'}),
+            'dpt': TextInput(attrs={'readonly': 'readonly'}),
             'price_opt': HiddenInput,
         }
 

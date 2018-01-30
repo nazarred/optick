@@ -74,6 +74,7 @@ def glasses_list(request):
 
 def glasses_add(request):
     if request.method == 'POST':
+        print(request.POST)
         kod, dpt = request.POST['kod'], request.POST['dpt']
         form = GlassesModelForm(request.POST)
         if form.is_valid():
