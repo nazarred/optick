@@ -41,10 +41,13 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="{% block active_main %}{% endblock %}"><a href="{% url 'index' %}">Головна</a></li>
+          {% if user.username == 'nazar' %}
             <li class="{% block active_add %}{% endblock %}"><a href="{% url 'glasses:add' %}">Добавити</a></li>
+          {% endif %}
             <li class="{% block active_search %}{% endblock %}"><a href="{% url 'glasses:search' %}">Пошук</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        <p class="navbar-text navbar-right">Ви авторизовані як <b>{{ user.username }}</b> <a href="{% url 'logout' %}">Вихід</a></p>
+        </div>
       </div>
     </div>
 

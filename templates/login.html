@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html class="ex-ua-domain fex-login-page"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+	<meta charset="utf-8">
+	<title>Login</title>
+{#	<link href="https://mail.ex.ua/v1/exmail5/favicon.ico" rel="shortcut icon" type="image/x-icon">#}
+	<link href="{% static 'login_page/css.css' %}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'login_page/vendors.css' %}">
+	<link href="{% static 'login_page/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="page no_touch">
+
+    <div id="app" class="container fex-home">
+        <div class="fex-header">
+            <div class="fex-header__nav">  </div>
+                <div class="fex-header__logo fex-mobile-hidden">
+            <p class="fex-logo fex-logo--ex fex-logo--white"> ОПТИКА ТВОГО МІСТА</p>
+                </div>
+        </div>
+        <div class="fex-login">
+            <div class="fex-login__background fex-login__background--ex"></div>
+            <div class="fex-login__backgroundShade"></div>
+            <div class="fex-login__mask"></div>
+            {% if login_error %}
+                    <div class="note_wr" id="alert_box" style="display: block;">
+                    <div class="note_bl">{{ login_error }}</div>
+                    </div>
+            {% endif %}
+            <div class="fex-login__container">
+                <h1 class="fex-login__headline"> Вхід для адміністраторів та продавців </h1>
+                <div class="fex-login__form js-login-form"></div>
+                    <p class="fex-login__formLabel" align="center"> Щоб увійти введіть Ваш логін та пароль</p>
+
+                    <form class="fex-login__formAuth" method="post">
+                        {% csrf_token %}
+                        <div class="fex-form__group">
+                            <input data-auto-bind="" class="fex-form__control" name="login" placeholder="Логин или телефон" type="text">
+                            <div class="fex-form__error"></div>
+                        </div>
+                            <div class="fex-form__group">
+                                <input data-auto-bind="" class="fex-form__control" name="password" placeholder="Пароль" type="password">
+                                <div class="fex-form__error"></div>
+                            </div>
+                        <button class="fex-login__submitBtn">Увійти</button>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

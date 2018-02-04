@@ -22,7 +22,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home_page, name='index'),
     url(r'^glasses/', include('glasses.urls', namespace='glasses')),
-    url(r'^sale/', include('sale.urls', namespace='sale'))
+    url(r'^sale/', include('sale.urls', namespace='sale')),
+    url(r'^login/', views.login, name='login'),
+    url(r'^logout/', views.logout, name='logout')
+
 ]
 
 if settings.DEBUG:

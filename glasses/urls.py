@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^search/$', views.glasses_search, name='search'),
-    url(r'^list/', views.glasses_list, name='list'),
+    url(r'^list/', views.search_results, name='list'),
     url(r'^add/$', views.glasses_add, name='add'),
 ]
 

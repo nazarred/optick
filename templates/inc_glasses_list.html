@@ -4,6 +4,7 @@
                   <th>#</th>
                   <th>Код окулярів</th>
                   <th>Ім'я</th>
+                  <th>Тип</th>
                   <th>Діоптрії</th>
                   <th>Кількість</th>
                   <th>Ціна</th>
@@ -17,6 +18,7 @@
                   <td>{{ forloop.counter }}</td>
                   <td>{{ glass.kod }}</td>
                   <td>{{ glass.name }}</td>
+                  <td>{{ glass.get_glass_type_display }}</td>
                   <td>{% if glass.dpt %}{{ glass.dpt }}{% endif %}</td>
                   <td>{{ glass.pcs }}</td>
                   <td>{{ glass.price_roz }}</td>
