@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView
 from sale.models import SoldGlasses
 from django.contrib import messages
 from .forms import GlassesModelForm, SearchModelForm, DateFilterModelForm
-from .utils import date_from_post
+from .utils import date_from_post, get_sum_pcs_price
 from django.contrib import auth
 
 import datetime
@@ -62,17 +62,18 @@ def login(request):
 
 @login_required
 def home_page(request):
-    form = DateFilterModelForm()
+    form = DateFilterModelForm(request.POST or None)
     glasses = SoldGlasses.objects.filter(sale_date__contains=date_today).order_by('-sale_date')
     context = {
         'form': form,
-        'date': date_today,
+        'date': date_today
     }
     if request.method == 'POST':
         first_date, last_date = date_from_post(request.POST)
         glasses = SoldGlasses.date_filter(first_date, last_date)
         context['first_date'], context['last_date'] = first_date, last_date
     context['glasses'] = glasses
+    context.update(get_sum_pcs_price(glasses))
     return render(request, 'index.html', context)
 
 
@@ -81,10 +82,14 @@ def glasses_search(request):
     form = SearchModelForm()
     return render(request, 'glasses/search.html', {'form': form})
 
+
 @login_required
 def search_results(request):
-    no_glass_message = None
     form = SearchModelForm(request.GET)
+    context = {
+        'no_glass_message': None,
+        'form': form
+    }
     glasses = Glasses.objects.all()
     if request.GET['kod']:
         glasses = glasses.filter(kod=request.GET['kod'])
@@ -97,10 +102,11 @@ def search_results(request):
     if request.GET['glass_type'] != 'all':
         glasses = glasses.filter(glass_type=request.GET['glass_type'])
     if not glasses:
-        no_glass_message = 'Окулярів з такими параметрими не знайдено'
-    return render(request, 'glasses/search.html', {'form': form,
-                                                   'glasses': glasses,
-                                                   'no_glass_message': no_glass_message})
+        context['no_glass_message'] = 'Окулярів з такими параметрими не знайдено'
+    context['glasses'] = glasses
+    context.update(get_sum_pcs_price(glasses))
+    return render(request, 'glasses/search.html', context)
+
 
 @login_required
 def glasses_add(request):
